@@ -9,7 +9,20 @@ export const Wrapper = styled.div`
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
 
   p {
-    font-size: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .quiz-current-score {
+    color: #ce7706;
+  }
+
+  .question-card-top {
+    display: flex;
+    flex-direction: inherit;
+    justify-content: space-between;
+    p {
+      font-family: 'Luckiest Guy', cursive;
+    }
   }
 `;
 
@@ -28,19 +41,21 @@ export const BottomWrapper = styled.div<BottomWrapperProps>`
   button {
     cursor: pointer;
     user-select: none;
-    font-size: 0.8rem;
+    font-size: 1.4rem;
     width: 100%;
     height: 40px;
     margin: 5px 0;
-    background: ${({ correct, userClicked }) =>
+    background-color: ${({ correct, userClicked }) =>
       correct
-        ? 'linear(90deg, #56ffa4, #59bc86)' //if answer is correct
+        ? '#56ffa4' //if answer is correct
         : !correct && userClicked //if answer is wrong and the user has clicked on the button
-        ? 'linear(90deg, #ff5656, #c16868)'
-        : 'linear(90deg, #56ccff, #6eafb4)'};
+        ? ' #ff5656'
+        : ' #f2ddb0'} ;
+        /* background-color: ${({ correct, userClicked }) =>
+          correct && userClicked ? 'green' : 'red'}; */
 
     border: 3px solid #fff;
-    box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: -1px 1px 4px 1px rgb(0 0 0 / 9%);
     text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
   }
 `;

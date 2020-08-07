@@ -6,12 +6,14 @@ type Props = {
   answers: string[];
   callback: (event: React.MouseEvent<HTMLButtonElement>) => void;
   userAnswer: AnswerObject | undefined;
+  score: number;
   questionNumber: number;
   totalQuestions: number;
 };
 const QuestionCard: React.FC<Props> = ({
   question,
   answers,
+  score,
   callback,
   userAnswer,
   questionNumber,
@@ -19,27 +21,34 @@ const QuestionCard: React.FC<Props> = ({
 }) => {
   return (
     <>
-      <Wrapper>
-        <p className='number'>
-          Question: {questionNumber}/{totalQuestions}
-        </p>
-        <p dangerouslySetInnerHTML={{ __html: question }} />
-        <div className='answers'>
-          {answers.map((answer: string) => (
-            <BottomWrapper
-              key={answer}
-              correct={userAnswer?.correctAnswer === answer}
-              userClicked={userAnswer?.answer === answer}>
-              <button
-                value={answer}
-                disabled={userAnswer ? true : false}
-                onClick={callback}>
-                <span dangerouslySetInnerHTML={{ __html: answer }} />
-              </button>
-            </BottomWrapper>
-          ))}
-        </div>
-      </Wrapper>
+      {question ? (
+        <Wrapper>
+          <div className='question-card-top'>
+            <p className='number'>
+              Question: {questionNumber}/{totalQuestions}
+            </p>{' '}
+            <p className='quiz-current-score'>Score: {score}</p>
+          </div>
+          <p dangerouslySetInnerHTML={{ __html: question }} />
+          <div className='answers'>
+            {answers.map((answer: string) => (
+              <BottomWrapper
+                key={answer}
+                correct={userAnswer?.correctAnswer === answer}
+                userClicked={userAnswer?.answer === answer}>
+                <button
+                  value={answer}
+                  disabled={userAnswer ? true : false}
+                  onClick={callback}>
+                  <span dangerouslySetInnerHTML={{ __html: answer }} />
+                </button>
+              </BottomWrapper>
+            ))}
+          </div>
+        </Wrapper>
+      ) : (
+        <p>There are no questions for this category</p>
+      )}
     </>
   );
 };
