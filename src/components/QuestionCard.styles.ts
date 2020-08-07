@@ -4,12 +4,13 @@ export const Wrapper = styled.div`
   max-width: 1100px;
   background: #ebfeff;
   border-radius: 10px;
-  border: 2px solid #0085a3;
-  padding: 20px;
+  border: 2px solid #ce7706;
+  padding: 10px 11px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
 
   p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    text-align: center;
   }
 
   .quiz-current-score {
@@ -42,7 +43,7 @@ export const BottomWrapper = styled.div<BottomWrapperProps>`
   button {
     cursor: pointer;
     user-select: none;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     width: 100%;
     height: 40px;
     margin: 5px 0;

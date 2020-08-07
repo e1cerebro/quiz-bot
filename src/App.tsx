@@ -1,12 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 //components
 import QuestionCard from './components/QuestionCard';
-import {
-  fetchQuizQuestions,
-  QUESTIONSTATE,
-  DIFFICULTY,
-  fetchcategories,
-} from './utils/API';
+import QuizSummary from './components/QuizSummary/QuizSummary';
+// Styles
 import {
   GlobalStyle,
   Wrapper,
@@ -14,10 +10,17 @@ import {
   SelectWrapper,
   ImageWrapper,
 } from './App.styles';
+//images
 import Logo from './images/logo.png';
-import QuizSummary from './components/QuizSummary/QuizSummary';
+//utilities
+import {
+  fetchQuizQuestions,
+  QUESTIONSTATE,
+  DIFFICULTY,
+  fetchcategories,
+} from './utils/API';
 
-const TOTAL_QUESTIONS = 20;
+const TOTAL_QUESTIONS = 10;
 
 export type AnswerObject = {
   question: string;
@@ -38,19 +41,18 @@ export enum ANSWER_STATUS {
 }
 
 const App = () => {
+  //APP States
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState<QUESTIONSTATE[]>([]);
   const [number, setNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
-  const [answerStatus, setAnswerStatus] = useState<ANSWER_STATUS>(
-    ANSWER_STATUS.nothing
-  );
   const [categories, setCategories] = useState<categoryObject[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number>(-1);
   const [difficulty, setDifficulty] = useState<DIFFICULTY>(DIFFICULTY.Easy);
 
+  //Fetch the categories when the components are loaded
   useEffect(() => {
     (async () => {
       const cats = await fetchcategories();
@@ -58,7 +60,8 @@ const App = () => {
     })();
   }, []);
 
-  const startTrivia = async () => {
+  //Start the quiz
+  const startQuiz = async () => {
     setLoading(true);
     setGameOver(false);
 
@@ -83,12 +86,8 @@ const App = () => {
       const answer: string = event.currentTarget.innerText;
       //Check if answer matches the correct answer
       let correct = answer === questions[number].correct_answer;
-      if (correct) {
-        setScore((prev: number) => prev + 1);
-        setAnswerStatus(ANSWER_STATUS.correct);
-      } else {
-        setAnswerStatus(ANSWER_STATUS.wrong);
-      }
+      if (correct) setScore((prev: number) => prev + 1);
+
       //save answer in the array of answers
       const answerObject = {
         question: questions[number].question,
@@ -130,7 +129,6 @@ const App = () => {
     setLoading(false);
     setQuestions([]);
     setGameOver(true);
-    setAnswerStatus(ANSWER_STATUS.nothing);
   };
 
   return (
@@ -138,11 +136,7 @@ const App = () => {
       <GlobalStyle />
       <Wrapper>
         <ImageWrapper>
-          <img
-            alt={'Quiz Bot'}
-            src={Logo}
-            style={{ width: '310px', margin: '10px auto' }}
-          />
+          <img alt={'Quiz Bot'} src={Logo} />
         </ImageWrapper>
         {gameOver && !loading && (
           <Fragment>
@@ -172,7 +166,7 @@ const App = () => {
         )}
         {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
           <ActionControls>
-            <button className='start' onClick={startTrivia}>
+            <button className='start' onClick={startQuiz}>
               Start Quiz
             </button>
           </ActionControls>

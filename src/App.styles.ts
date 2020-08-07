@@ -13,8 +13,9 @@ export const GlobalStyle = createGlobalStyle`
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center bottom;
+   background-attachment: fixed;
    margin: 0;
-   padding: 0 20px;
+   padding: 0 5px;
    display: flex;
    justify-content: center;
    height: 100%;
@@ -33,6 +34,15 @@ export const ImageWrapper = styled.div`
   margin-top: 40px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
+
+  img {
+    width: 310px;
+    margin: 10px auto;
+
+    @media (max-width: 699px) {
+      width: 122px;
+    }
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -72,10 +82,16 @@ export const Wrapper = styled.div`
     color: #fff;
     border: 1px solid #ffffff;
     border-radius: 7px;
-    padding: 19px 72px;
-    font-size: 1.3rem;
+    padding: 12px 33px;
+    font-size: 1.2rem;
     text-transform: uppercase;
-    margin: auto 10px;
+    margin: auto 5px;
+
+    @media (max-width: 699px) {
+      margin: 6px 2px;
+      padding: 14px 43px;
+      font-size: 0.8rem;
+    }
   }
 
   .end-game {
@@ -93,8 +109,9 @@ export const ActionControls = styled.div`
 `;
 export const SelectWrapper = styled.div`
   position: relative;
-  width: 350px;
+  min-width: 299px;
   margin: 6px auto;
+  border-radius: 10px;
   // Dropdown icon
   &::after {
     color: black;
