@@ -17,7 +17,7 @@ import {
 import Logo from './images/logo.png';
 import QuizSummary from './components/QuizSummary/QuizSummary';
 
-const TOTAL_QUESTIONS = 5;
+const TOTAL_QUESTIONS = 20;
 
 export type AnswerObject = {
   question: string;
