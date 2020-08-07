@@ -20,6 +20,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: inherit;
     justify-content: space-between;
+    flex-wrap: wrap;
     p {
       font-family: 'Luckiest Guy', cursive;
     }

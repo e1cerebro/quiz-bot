@@ -72,8 +72,8 @@ export const Wrapper = styled.div`
     color: #fff;
     border: 1px solid #ffffff;
     border-radius: 7px;
-    padding: 10px 50px;
-    font-size: 1rem;
+    padding: 19px 72px;
+    font-size: 1.3rem;
     text-transform: uppercase;
     margin: auto 10px;
   }
