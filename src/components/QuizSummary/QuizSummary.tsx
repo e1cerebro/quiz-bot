@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { getPercentage } from '../../utils';
 import { QuizSummaryWrapper } from './QuizSummary.styles';
-import { Wrapper } from '../QuestionCard.styles';
+
 type Props = {
   totalScore: number;
   totalQuestions: number;

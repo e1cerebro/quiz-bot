@@ -21,7 +21,7 @@ export const fetchQuizQuestions = async (
   amount: number,
   difficulty: DIFFICULTY,
   selectedCategory: number
-): Promise<any[]> => {
+): Promise<QUESTIONSTATE[]> => {
   let endpoint = `https://opentdb.com/api.php?amount=${amount}`;
 
   endpoint += selectedCategory !== -1 ? `&category=${selectedCategory}` : '';

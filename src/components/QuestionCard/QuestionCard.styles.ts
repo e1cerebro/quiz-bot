@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   max-width: 1100px;
+  min-width: 350px;
   background: #ebfeff;
-  border-radius: 10px;
   border: 2px solid #ce7706;
   padding: 10px 11px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
@@ -11,6 +11,10 @@ export const Wrapper = styled.div`
   p {
     font-size: 1.2rem;
     text-align: center;
+  }
+
+  p.timer {
+    color: #c11818;
   }
 
   .quiz-current-score {
@@ -22,8 +26,13 @@ export const Wrapper = styled.div`
     flex-direction: inherit;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin: 4px 0 22px 0;
+    border-bottom: 8px solid #252525;
     p {
       font-family: 'Luckiest Guy', cursive;
+    }
+    p::nth-of-type(2) {
+      margin: 0 10px;
     }
   }
 `;

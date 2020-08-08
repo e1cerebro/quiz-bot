@@ -1,14 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 //components
-import QuestionCard from './components/QuestionCard';
+import QuestionCard from './components/QuestionCard/QuestionCard';
 import QuizSummary from './components/QuizSummary/QuizSummary';
 // Styles
 import {
   GlobalStyle,
   Wrapper,
-  ActionControls,
   SelectWrapper,
   ImageWrapper,
+  DisplayFlex,
 } from './App.styles';
 //images
 import Logo from './images/logo.png';
@@ -19,35 +19,21 @@ import {
   DIFFICULTY,
   fetchcategories,
 } from './utils/API';
+//Typescript types
+import { AnswerObject, categoryObject } from './TypeScript/types';
+import Button from './components/button/Button';
 
 const TOTAL_QUESTIONS = 10;
 
-export type AnswerObject = {
-  question: string;
-  answer: string;
-  correct: boolean;
-  correctAnswer: string;
-};
-
-export type categoryObject = {
-  id: number;
-  name: string;
-};
-
-export enum ANSWER_STATUS {
-  'correct' = 'Correct Answer',
-  'wrong' = 'Wrong Answer',
-  nothing = '',
-}
-
 const App = () => {
   //APP States
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [questions, setQuestions] = useState<QUESTIONSTATE[]>([]);
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState<number>(0);
+  const [remaining, setRemaining] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
-  const [score, setScore] = useState(0);
-  const [gameOver, setGameOver] = useState(true);
+  const [score, setScore] = useState<number>(0);
+  const [gameOver, setGameOver] = useState<boolean>(true);
   const [categories, setCategories] = useState<categoryObject[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number>(-1);
   const [difficulty, setDifficulty] = useState<DIFFICULTY>(DIFFICULTY.Easy);
@@ -65,7 +51,7 @@ const App = () => {
     setLoading(true);
     setGameOver(false);
 
-    const newQuestions = await fetchQuizQuestions(
+    const newQuestions: QUESTIONSTATE[] = await fetchQuizQuestions(
       TOTAL_QUESTIONS,
       difficulty,
       selectedCategory
@@ -73,6 +59,7 @@ const App = () => {
 
     if (newQuestions) {
       setQuestions(newQuestions);
+      startTimer();
     }
 
     //reset quiz stats
@@ -81,13 +68,31 @@ const App = () => {
     setNumber(0);
     setLoading(false);
   };
+
+  const startTimer = () => {
+    let startTime: number = 3;
+
+    // Update the count down every 1 second
+    let timer = setInterval(function () {
+      let seconds: number = startTime--;
+
+      // Output the result in an element with id="demo"
+      setRemaining(seconds);
+
+      // If the count down is over, write some text
+      if (seconds <= 0) {
+        clearInterval(timer);
+        setRemaining(0);
+        nextQuestion();
+      }
+    }, 1000);
+  };
   const checkAnswer = (event: React.MouseEvent<HTMLButtonElement>): void => {
     if (!gameOver) {
       const answer: string = event.currentTarget.innerText;
       //Check if answer matches the correct answer
       let correct = answer === questions[number].correct_answer;
       if (correct) setScore((prev: number) => prev + 1);
-
       //save answer in the array of answers
       const answerObject = {
         question: questions[number].question,
@@ -95,17 +100,15 @@ const App = () => {
         correct,
         correctAnswer: questions[number].correct_answer,
       };
-
       setUserAnswers(prev => [...prev, answerObject]);
     }
   };
 
-  const nextQuestion = async () => {
+  const nextQuestion = () => {
     //move to the next if not the last in the array
     const nextQuestion = number + 1;
-    if (nextQuestion === TOTAL_QUESTIONS) {
-      setGameOver(true);
-    }
+    //End question if the next question is equal to the total questions length
+    if (nextQuestion === TOTAL_QUESTIONS) setGameOver(true);
     setNumber(nextQuestion);
   };
 
@@ -118,7 +121,7 @@ const App = () => {
   const difficultySelected = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
-    const difficulty = event.currentTarget.value as DIFFICULTY;
+    const difficulty: DIFFICULTY = event.currentTarget.value as DIFFICULTY;
     setDifficulty(difficulty);
   };
 
@@ -165,17 +168,16 @@ const App = () => {
           </Fragment>
         )}
         {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-          <ActionControls>
-            <button className='start' onClick={startQuiz}>
-              Start Quiz
-            </button>
-          </ActionControls>
+          <Button type='start' callback={startQuiz}>
+            Start Quiz
+          </Button>
         ) : null}
         {loading && <p className='loading'>Loading Questions...</p>}
         {!loading && !gameOver && number !== TOTAL_QUESTIONS - 1 && (
           <QuestionCard
             questionNumber={number + 1}
             score={score}
+            remaining={remaining}
             totalQuestions={TOTAL_QUESTIONS}
             question={questions[number]?.question}
             answers={questions[number]?.answers}
@@ -183,21 +185,21 @@ const App = () => {
             callback={checkAnswer}
           />
         )}
-        <ActionControls>
+        <DisplayFlex>
           {!gameOver &&
             !loading &&
             userAnswers.length === number + 1 &&
             number !== TOTAL_QUESTIONS - 1 && (
-              <button className='next' onClick={nextQuestion}>
+              <Button type='next' callback={nextQuestion}>
                 Next
-              </button>
+              </Button>
             )}
           {!gameOver && !loading && (
-            <button className='end-game' onClick={restartQuiz}>
+            <Button type='end-game' callback={restartQuiz}>
               Restart
-            </button>
+            </Button>
           )}
-        </ActionControls>{' '}
+        </DisplayFlex>
         {number === TOTAL_QUESTIONS - 1 && (
           <QuizSummary
             callback={restartQuiz}

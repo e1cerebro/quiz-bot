@@ -1,6 +1,6 @@
 import React from 'react';
-import { AnswerObject } from '../App';
 import { Wrapper, BottomWrapper } from './QuestionCard.styles';
+import { AnswerObject } from '../../TypeScript/types';
 type Props = {
   question: string;
   answers: string[];
@@ -9,9 +9,11 @@ type Props = {
   score: number;
   questionNumber: number;
   totalQuestions: number;
+  remaining: number;
 };
 const QuestionCard: React.FC<Props> = ({
   question,
+  remaining,
   answers,
   score,
   callback,
@@ -26,7 +28,8 @@ const QuestionCard: React.FC<Props> = ({
           <div className='question-card-top'>
             <p className='number'>
               Question: {questionNumber}/{totalQuestions}
-            </p>{' '}
+            </p>
+            {/* <p className='timer'>Time Remaining: {remaining}s</p> */}
             <p className='quiz-current-score'>Score: {score}</p>
           </div>
           <p dangerouslySetInnerHTML={{ __html: question }} />
@@ -40,8 +43,7 @@ const QuestionCard: React.FC<Props> = ({
                   value={answer}
                   disabled={userAnswer ? true : false}
                   onClick={callback}>
-                  {/* <span dangerouslySetInnerHTML={{ __html: answer }} /> */}
-                  {answer}
+                  <span dangerouslySetInnerHTML={{ __html: answer }} />
                 </button>
               </BottomWrapper>
             ))}
