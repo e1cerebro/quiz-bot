@@ -1,7 +1,7 @@
 import React from 'react';
 import { Wrapper, BottomWrapper } from './QuestionCard.styles';
 import { AnswerObject } from '../../TypeScript/types';
-type Props = {
+type QuestionCardProps = {
   question: string;
   answers: string[];
   callback: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -9,11 +9,9 @@ type Props = {
   score: number;
   questionNumber: number;
   totalQuestions: number;
-  remaining: number;
 };
-const QuestionCard: React.FC<Props> = ({
+const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
-  remaining,
   answers,
   score,
   callback,
@@ -29,7 +27,6 @@ const QuestionCard: React.FC<Props> = ({
             <p className='number'>
               Question: {questionNumber}/{totalQuestions}
             </p>
-            {/* <p className='timer'>Time Remaining: {remaining}s</p> */}
             <p className='quiz-current-score'>Score: {score}</p>
           </div>
           <p dangerouslySetInnerHTML={{ __html: question }} />

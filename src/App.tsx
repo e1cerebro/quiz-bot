@@ -30,7 +30,6 @@ const App = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [questions, setQuestions] = useState<QUESTIONSTATE[]>([]);
   const [number, setNumber] = useState<number>(0);
-  const [remaining, setRemaining] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(true);
@@ -59,7 +58,6 @@ const App = () => {
 
     if (newQuestions) {
       setQuestions(newQuestions);
-      startTimer();
     }
 
     //reset quiz stats
@@ -69,24 +67,6 @@ const App = () => {
     setLoading(false);
   };
 
-  const startTimer = () => {
-    let startTime: number = 3;
-
-    // Update the count down every 1 second
-    let timer = setInterval(function () {
-      let seconds: number = startTime--;
-
-      // Output the result in an element with id="demo"
-      setRemaining(seconds);
-
-      // If the count down is over, write some text
-      if (seconds <= 0) {
-        clearInterval(timer);
-        setRemaining(0);
-        nextQuestion();
-      }
-    }, 1000);
-  };
   const checkAnswer = (event: React.MouseEvent<HTMLButtonElement>): void => {
     if (!gameOver) {
       const answer: string = event.currentTarget.innerText;
@@ -118,6 +98,7 @@ const App = () => {
     const category: number = parseInt(event.currentTarget.value);
     setSelectedCategory(category);
   };
+
   const difficultySelected = (
     event: React.ChangeEvent<HTMLSelectElement>
   ): void => {
@@ -177,7 +158,6 @@ const App = () => {
           <QuestionCard
             questionNumber={number + 1}
             score={score}
-            remaining={remaining}
             totalQuestions={TOTAL_QUESTIONS}
             question={questions[number]?.question}
             answers={questions[number]?.answers}

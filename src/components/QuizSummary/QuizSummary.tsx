@@ -2,13 +2,17 @@ import React, { FC, useState, useEffect } from 'react';
 import { getPercentage } from '../../utils';
 import { QuizSummaryWrapper } from './QuizSummary.styles';
 
-type Props = {
+type QuizSummaryProps = {
   totalScore: number;
   totalQuestions: number;
   callback: () => void;
 };
 
-const QuizSummary: FC<Props> = ({ totalScore, totalQuestions, callback }) => {
+const QuizSummary: FC<QuizSummaryProps> = ({
+  totalScore,
+  totalQuestions,
+  callback,
+}) => {
   const [percentage, setPercentage] = useState<number>(0);
 
   useEffect(() => {
@@ -29,7 +33,7 @@ const QuizSummary: FC<Props> = ({ totalScore, totalQuestions, callback }) => {
   };
 
   const constructShareMessage = (): string => {
-    return `Hey guys!%0AI just played quizz bott. Here is how I performed:!%0A-${totalScore} Out of ${totalQuestions} questions was answered correctly.%0A-With an accuracy of ${percentage} %25 %0ATRY IT AND SHARE%0A`;
+    return `Hey guys!%0AI just played quizz bott. Here is how I performed:%0A -${totalScore} Out of ${totalQuestions} questions was answered correctly.%0A -With an accuracy of ${percentage} %25 %0ATRY IT AND SHARE%0A`;
   };
 
   return (

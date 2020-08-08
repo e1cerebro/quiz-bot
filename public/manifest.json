@@ -1,12 +1,13 @@
 {
-  "short_name": "Quiz Bot",
-  "name": "Quiz Bot - Tickle your brain",
+  "short_name": "Quizz Bott",
+  "name": "Quizz Bott - Tickle your brain",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
+
     {
       "src": "android-chrome-192x192.png",
       "type": "image/png",
@@ -16,6 +17,11 @@
       "src": "android-chrome-384x384.png",
       "type": "image/png",
       "sizes": "384x384"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",
